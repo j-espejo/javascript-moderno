@@ -1,10 +1,11 @@
-// Pregunta la usuario su nombre
-const nombre = prompt("Cual es tu nombre?");
+console.error("Algo salio mal");
 
-//Toma nombre y lo muestra en pantalla
-document.querySelector(
-  ".contenido"
-).innerHTML = `${nombre} está aprendiendo JavaScript Moderno`;
+console.time("Hola");
 
-// Asigna el valor a la variable producto
-const producto = "Monutor 24 pulgadas";
+console.warn("Esto no esta permitido");
+
+console.timeEnd("Hola");
+
+const obj = {
+  nombre: "jorge",
+};
