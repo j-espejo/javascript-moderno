@@ -14,19 +14,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function validar(e) {
     if (e.target.value.trim() === "") {
-      mostrarAlerta(`El Campo ${e.target.name} es obligatorio`);
+      mostrarAlerta(
+        `El Campo ${e.target.name} es obligatorio`,
+        e.target.parentElement
+      );
     } else {
       console.log("Si hay algo");
     }
   }
 
-  function mostrarAlerta(mensaje) {
+  function mostrarAlerta(mensaje, referencia) {
     //Generar alerta HTML
     const error = document.createElement("p");
     error.textContent = mensaje;
     error.classList.add("bg-red-600", "text-white", "p-2", "text-center");
 
     // Inyectar el error al formulario
-    formulario.appendChild(error);
+    referencia.appendChild(error);
   }
 });
