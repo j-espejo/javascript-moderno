@@ -12,11 +12,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const inputMensaje = document.querySelector("#mensaje");
 
   const formulario = document.querySelector("#formulario");
+  const btnSubmit = document.querySelector('#formulario button[type="submit"]');
 
   // Asignar eventos
-  inputEmail.addEventListener("blur", validar);
-  inputAsunto.addEventListener("blur", validar);
-  inputMensaje.addEventListener("blur", validar);
+  inputEmail.addEventListener("input", validar);
+  inputAsunto.addEventListener("input", validar);
+  inputMensaje.addEventListener("input", validar);
 
   function validar(e) {
     if (e.target.value.trim() === "") {
@@ -24,12 +25,17 @@ document.addEventListener("DOMContentLoaded", function () {
         `El Campo ${e.target.name} es obligatorio`,
         e.target.parentElement
       );
+
+      email[e.target.name] = "";
+      comprobarEmail();
       return;
     }
 
     // Tiene que ser 'email' y fallar el email
     if (e.target.name === "email" && !validarEmail(e.target.value)) {
       mostrarAlerta("El email no es válido", e.target.parentElement);
+      email[e.target.name] = "";
+      comprobarEmail();
       return;
     }
 
@@ -69,6 +75,14 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function comprobarEmail() {
-    console.log(Object.values(email).includes(""));
+    console.log(email);
+    if (Object.values(email).includes("")) {
+      btnSubmit.classList.add("opacity-50");
+      btnSubmit.disabled = true;
+      return;
+    }
+
+    btnSubmit.classList.remove("opacity-50");
+    btnSubmit.disabled = false;
   }
 });
