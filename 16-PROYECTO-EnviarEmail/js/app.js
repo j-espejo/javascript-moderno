@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const inputEmail = document.querySelector("#email");
   const inputAsunto = document.querySelector("#asunto");
   const inputMensaje = document.querySelector("#mensaje");
+  const inputCC = document.querySelector("#cc");
 
   const formulario = document.querySelector("#formulario");
   const btnSubmit = document.querySelector('#formulario button[type="submit"]');
@@ -20,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
   inputEmail.addEventListener("input", validar);
   inputAsunto.addEventListener("input", validar);
   inputMensaje.addEventListener("input", validar);
+  inputCC.addEventListener("input", validar);
 
   formulario.addEventListener("submit", enviarEmail);
 
@@ -41,10 +43,39 @@ document.addEventListener("DOMContentLoaded", function () {
       spinner.classList.add("hidden");
 
       resetFormulario();
-    }, 1000);
+
+      // Crear una alerta
+
+      const alertaExito = document.createElement("p");
+      alertaExito.classList.add(
+        "bg-green-500",
+        "text-white",
+        "p-2",
+        "text-center",
+        "rounded-lg",
+        "mt-10",
+        "font-bold",
+        "text-sm",
+        "uppercase"
+      );
+
+      alertaExito.textContent = "Mensaje enviado correctamente";
+      formulario.appendChild(alertaExito);
+
+      setTimeout(() => {
+        alertaExito.remove();
+      }, 1500);
+    }, 2000);
   }
 
   function validar(e) {
+    if (e.target.name === "cc" && !validarEmail(e.target.value)) {
+      mostrarAlerta("El email no es válido", e.target.parentElement);
+      email[e.target.name] = "";
+      comprobarEmail();
+      return;
+    }
+
     if (e.target.value.trim() === "") {
       mostrarAlerta(
         `El Campo ${e.target.name} es obligatorio`,
@@ -71,6 +102,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //Comprobar el objeto de email
     comprobarEmail();
+
+    console.log(email);
   }
 
   function mostrarAlerta(mensaje, referencia) {
