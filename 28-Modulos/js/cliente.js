@@ -30,3 +30,8 @@ export class Cliente {
     return `Cliente: ${this.nombre} - Ahorro: ${this.ahorro}`;
   }
 }
+
+// solo se puede tener 1 export default
+export default function nuevaFuncion() {
+  console.log("Este es el export default");
+}
