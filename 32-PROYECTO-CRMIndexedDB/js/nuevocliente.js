@@ -37,6 +37,40 @@
 
       return;
     }
+
+    // Crear un objeto con la información
+    const cliente = {
+      nombre,
+      email,
+      telefono,
+      empresa,
+    };
+
+    cliente.id = Date.now();
+
+    crearNuevoCliente(cliente);
+  }
+
+  function crearNuevoCliente(cliente) {
+    // utilizar transacciones DB, escritura y lectura
+    const transaction = DB.transaction(["crm"], "readwrite");
+
+    const objectStore = transaction.objectStore("crm");
+
+    // pasamos el objeto de cliente
+    objectStore.add(cliente);
+
+    transaction.onerror = function () {
+      imprimirAlerta("Hubo un error", "error");
+    };
+
+    transaction.oncomplete = function () {
+      imprimirAlerta("El cliente se agrego Correctamente");
+    };
+
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 3000);
   }
 
   function imprimirAlerta(mensaje, tipo) {
@@ -65,9 +99,11 @@
         );
       } else {
         divMensaje.classList.add(
-          "ng-green-100",
+          "bg-green-100",
           "border-green-400",
-          "text-green-700"
+          "text-green-700",
+          "border",
+          "alerta"
         );
       }
 
@@ -77,7 +113,7 @@
 
       setTimeout(() => {
         divMensaje.remove();
-      }, 1500);
+      }, 2000);
     }
   }
 })();
